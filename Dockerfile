@@ -42,6 +42,13 @@ RUN bundle install && \
 # Copy application code
 COPY . .
 
+# Install Node.js and npm for Vite
+RUN curl -fsSL https://deb.nodesource.com/setup_23.x | bash - && \
+    apt-get install -y nodejs
+
+# Install JavaScript dependencies
+RUN npm install
+
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 

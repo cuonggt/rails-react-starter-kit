@@ -1,6 +1,6 @@
-require_relative "boot"
+require_relative 'boot'
 
-require "rails/all"
+require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -23,5 +23,10 @@ module RailsReactStarterKit
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    require_relative '../app/middlewares/handle_appearance'
+    require_relative '../app/middlewares/handle_session'
+    config.middleware.use(HandleAppearance)
+    config.middleware.use(HandleSession)
   end
 end

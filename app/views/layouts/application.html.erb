@@ -1,27 +1,58 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Rails React Starter Kit" %></title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <%# Inline script to detect system dark mode preference and apply it immediately %>
+    <script>
+      (function() {
+        const appearance = '<%= @appearance || "system" %>';
+
+        if (appearance === 'system') {
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+          if (prefersDark) {
+            document.documentElement.classList.add('dark');
+          }
+        }
+      })();
+    </script>
+
+    <%# Inline style to set the HTML background color based on our theme in app.css %>
+    <style>
+      html {
+        background-color: oklch(1 0 0);
+      }
+
+      html.dark {
+        background-color: oklch(0.145 0 0);
+      }
+    </style>
+
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <title inertia><%= content_for(:title) || "Rails App" %></title>
+
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app %>
+    <%= vite_stylesheet_tag "application" %>
+    <%= vite_react_refresh_tag %>
+    <%= vite_client_tag %>
+    <%= vite_typescript_tag "application" %>
+    <%= inertia_ssr_head %>
   </head>
-
-  <body>
+  <body class="font-sans antialiased">
     <%= yield %>
   </body>
 </html>
